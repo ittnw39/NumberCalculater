@@ -8,6 +8,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import org.example.controller.CalculatorController;
 import javafx.geometry.Pos;
 
@@ -57,7 +59,7 @@ public class NumberCalculatorApp extends Application {
         VBox.setVgrow(resultSection, Priority.ALWAYS);
         
         Label resultLabel = new Label("분할 결과:");
-        resultLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+        resultLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
         resultSection.getChildren().addAll(resultLabel, controller.getResultDisplay().getScrollPane());
         
         // 전체 레이아웃 (상단 2열 + 하단 결과)
@@ -92,6 +94,7 @@ public class NumberCalculatorApp extends Application {
         VBox section = new VBox(5);
         
         Label inputLabel = new Label("나눌 숫자를 입력하세요:");
+        inputLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
         TextField inputField = new TextField();
         inputField.setId("inputField"); // ID 추가로 안전한 접근
         
@@ -101,30 +104,35 @@ public class NumberCalculatorApp extends Application {
     }
     
     private VBox createButtonSection(CalculatorController controller) {
-        VBox section = new VBox(0); // 간격을 0으로 설정하여 버튼들이 붙어있도록 함
+        VBox section = new VBox(10); // 간격을 0으로 설정하여 버튼들이 붙어있도록 함
         section.setMinWidth(230); // 최소 너비 줄임
+        section.setPrefHeight(300); // 선호 높이 설정
+        section.setMinHeight(250); // 최소 높이 설정
         section.setAlignment(Pos.CENTER); // 중앙 정렬
         
-        Button remainderBtn = new Button("선택한 단위로 나머지 구하기");
+        Button remainderBtn = new Button("선택한 단위로 나누기(나머지 구하기)");
         remainderBtn.setMinWidth(180); // 최소 너비 줄임
         remainderBtn.setPrefWidth(220); // 선호 너비 조정
         remainderBtn.setMaxWidth(Double.MAX_VALUE);
+        remainderBtn.setMinHeight(60); // 최소 높이 설정
         remainderBtn.setMaxHeight(Double.MAX_VALUE); // 높이 제한 해제
-        remainderBtn.setMinHeight(50); // 최소 높이 설정
+        remainderBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 18)); // 폰트 설정
         
-        Button lengthDivisionBtn = new Button("선택한 단위로 숫자 분할하기");
+        Button lengthDivisionBtn = new Button("1단계: 선택한 단위로 분할하기");
         lengthDivisionBtn.setMinWidth(180); // 최소 너비 줄임
         lengthDivisionBtn.setPrefWidth(220); // 선호 너비 조정
         lengthDivisionBtn.setMaxWidth(Double.MAX_VALUE);
+        lengthDivisionBtn.setMinHeight(60); // 최소 높이 설정
         lengthDivisionBtn.setMaxHeight(Double.MAX_VALUE); // 높이 제한 해제
-        lengthDivisionBtn.setMinHeight(50); // 최소 높이 설정
+        lengthDivisionBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 18)); // 폰트 설정
         
-        Button distributeBtn = new Button("나머지 분배하기");
+        Button distributeBtn = new Button("2단계: 나머지 분배하기");
         distributeBtn.setMinWidth(180); // 최소 너비 줄임
         distributeBtn.setPrefWidth(220); // 선호 너비 조정
         distributeBtn.setMaxWidth(Double.MAX_VALUE);
+        distributeBtn.setMinHeight(60); // 최소 높이 설정
         distributeBtn.setMaxHeight(Double.MAX_VALUE); // 높이 제한 해제
-        distributeBtn.setMinHeight(50); // 최소 높이 설정
+        distributeBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 18)); // 폰트 설정
         
         // 버튼 이벤트 연결
         remainderBtn.setOnAction(e -> controller.handleRemainderCalculation());

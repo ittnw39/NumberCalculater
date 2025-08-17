@@ -3,6 +3,8 @@ package org.example.ui;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
 import org.example.service.CalculationService;
@@ -22,8 +24,10 @@ public class NumberSelectionComponent {
         this.numberCheckBoxes = createCheckBoxes();
         this.unitToggleGroup = new ToggleGroup();
         this.customUnitRadio = new RadioButton("사용자 지정 단위");
+        this.customUnitRadio.setFont(Font.font("Malgun Gothic", 14)); // 폰트 설정
         this.customUnitField = new TextField();
         this.customUnitField.setPromptText("단위 입력");
+        this.customUnitField.setFont(Font.font("Malgun Gothic", 14)); // 폰트 설정
         this.customUnitField.setDisable(true);
         
         setupCustomUnitControls();
@@ -36,9 +40,10 @@ public class NumberSelectionComponent {
         for (int i = 0; i < divisors.length; i++) {
             checkBoxes[i] = new CheckBox(String.valueOf(divisors[i]));
             checkBoxes[i].setSelected(false); // 기본 해제
-            checkBoxes[i].setMinWidth(45); // 최소 너비 더 줄임
-            checkBoxes[i].setPrefWidth(55); // 선호 너비 조정
+            checkBoxes[i].setMinWidth(60); // 최소 너비 증가
+            checkBoxes[i].setPrefWidth(70); // 선호 너비 증가
             checkBoxes[i].setMaxWidth(Double.MAX_VALUE); // 최대 너비 제한 해제
+            checkBoxes[i].setFont(Font.font("Malgun Gothic", 14)); // 폰트 설정
         }
         
         return checkBoxes;
@@ -72,18 +77,19 @@ public class NumberSelectionComponent {
     }
     
     public VBox createSelectionPanel() {
-        VBox panel = new VBox(10);
-        panel.setPadding(new Insets(10));
+        VBox panel = new VBox(15); // 간격 증가
+        panel.setPadding(new Insets(15)); // 패딩 증가
         
         // 제목
         Label selectLabel = new Label("분할할 단위를 선택하세요:");
+        selectLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
         
         // 기본 단위 체크박스 그리드
         GridPane checkboxGrid = new GridPane();
-        checkboxGrid.setHgap(8); // 간격 더 줄임
-        checkboxGrid.setVgap(5);
+        checkboxGrid.setHgap(20); // 체크박스 세트 간 간격 증가
+        checkboxGrid.setVgap(20); // 간격 증가
         checkboxGrid.setMinWidth(200); // 최소 너비 줄임
-        checkboxGrid.setPrefWidth(280); // 선호 너비 조정
+        checkboxGrid.setPrefWidth(320); // 선호 너비 조정 (간격 증가로 인해)
         checkboxGrid.setMaxWidth(Double.MAX_VALUE); // 최대 너비 제한 해제
         
         for (int i = 0; i < numberCheckBoxes.length; i++) {
@@ -91,13 +97,13 @@ public class NumberSelectionComponent {
         }
         
         // 사용자 지정 단위 영역
-        VBox customUnitBox = new VBox(5);
-        customUnitBox.setStyle("-fx-border-color: #cccccc; -fx-border-radius: 3; -fx-padding: 8;");
+        VBox customUnitBox = new VBox(8); // 간격 증가
+        customUnitBox.setStyle("-fx-border-color: #cccccc; -fx-border-radius: 3; -fx-padding: 12;"); // 패딩 증가
         
         Label customLabel = new Label("또는 사용자 지정 단위:");
-        customLabel.setStyle("-fx-font-weight: bold;");
+        customLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
         
-        HBox customInputBox = new HBox(5);
+        HBox customInputBox = new HBox(8); // 간격 증가
         customInputBox.getChildren().addAll(customUnitRadio, customUnitField);
         
         customUnitBox.getChildren().addAll(customLabel, customInputBox);
@@ -111,8 +117,11 @@ public class NumberSelectionComponent {
     
     private HBox createButtonBox() {
         Button selectAllBtn = new Button("전체 선택");
+        selectAllBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
         Button deselectAllBtn = new Button("전체 해제");
+        deselectAllBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
         Button resetBtn = new Button("초기화");
+        resetBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
         
         selectAllBtn.setOnAction(e -> selectAll());
         deselectAllBtn.setOnAction(e -> deselectAll());

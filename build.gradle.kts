@@ -27,5 +27,5 @@ javafx {
 
 application {
     mainClass.set("org.example.NumberCalculatorApp")
-    applicationName = "길이 분할 계산기"
+    applicationName = "숫자 분할 계산기"
 }

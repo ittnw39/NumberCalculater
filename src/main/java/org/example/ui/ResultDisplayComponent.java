@@ -38,7 +38,7 @@ public class ResultDisplayComponent {
     public void showMessage(String message) {
         clearResults();
         Label messageLabel = new Label(message);
-        messageLabel.setFont(Font.font("Arial", 14));
+        messageLabel.setFont(Font.font("Malgun Gothic", 14));
         messageLabel.setStyle("-fx-text-fill: #D32F2F;");
         resultContainer.getChildren().add(messageLabel);
     }
@@ -53,13 +53,13 @@ public class ResultDisplayComponent {
         clearResults();
         
         Label titleLabel = new Label("나머지 계산 결과");
-        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        titleLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 16));
         resultContainer.getChildren().add(titleLabel);
         
         for (CalculationResult result : results) {
             VBox resultBox = createResultBox(
-                result.getDividend() + " % " + result.getDivisor() + " = " + result.getRemainder(),
-                "나머지: " + result.getRemainder()
+                result.getDividend() + " ÷ " + result.getDivisor() + " = " + result.getQuotient() + " ... " + result.getRemainder(),
+                "몫: " + result.getQuotient() + ", 나머지: " + result.getRemainder()
             );
             resultContainer.getChildren().add(resultBox);
         }
@@ -69,7 +69,7 @@ public class ResultDisplayComponent {
         clearResults();
         
         Label titleLabel = new Label("분할 결과");
-        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        titleLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 16));
         resultContainer.getChildren().add(titleLabel);
         
         for (CalculationResult result : results) {
@@ -83,7 +83,7 @@ public class ResultDisplayComponent {
         clearResults();
         
         Label titleLabel = new Label("나머지 분배 결과");
-        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+        titleLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 16));
         resultContainer.getChildren().add(titleLabel);
         
         for (CalculationResult result : results) {
@@ -112,10 +112,10 @@ public class ResultDisplayComponent {
         box.setStyle("-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-color: #f9f9f9;");
         
         Label titleLabel = new Label(title);
-        titleLabel.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        titleLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
         
         Label contentLabel = new Label(content);
-        contentLabel.setFont(Font.font("Arial", 12));
+        contentLabel.setFont(Font.font("Malgun Gothic", 12));
         
         box.getChildren().addAll(titleLabel, contentLabel);
         return box;
