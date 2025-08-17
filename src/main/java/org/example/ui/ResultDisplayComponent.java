@@ -17,12 +17,14 @@ public class ResultDisplayComponent {
     public ResultDisplayComponent() {
         this.resultContainer = new VBox(10);
         this.resultContainer.setPadding(new Insets(10));
+        this.resultContainer.setFocusTraversable(false); // 포커스 비활성화 추가
         this.lengthVisualizer = new LengthVisualizationComponent();
         
         this.scrollPane = new ScrollPane();
         this.scrollPane.setContent(resultContainer);
         this.scrollPane.setFitToWidth(true);
         this.scrollPane.setPrefHeight(400);
+        this.scrollPane.setFocusTraversable(false); // 포커스 비활성화
     }
     
     public ScrollPane getScrollPane() {

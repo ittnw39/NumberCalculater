@@ -81,7 +81,7 @@ public class NumberCalculatorApp extends Application {
         });
         
         Scene scene = new Scene(mainLayout, 1200, 700); // 기본 크기 증가
-        stage.setTitle("치수 재고 확인 계산기");
+        stage.setTitle("길이 분할 계산기");
         stage.setMinWidth(1150); // 최소 너비 증가
         stage.setMinHeight(600); // 최소 높이 설정
         stage.setScene(scene);

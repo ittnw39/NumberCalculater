@@ -24,6 +24,7 @@ public class LengthVisualizationComponent {
         VBox container = new VBox(10);
         container.setPadding(new Insets(10));
         container.setStyle("-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-background-color: #f9f9f9;");
+        container.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 제목
         Label titleLabel = new Label("전체: " + totalLength);
@@ -38,6 +39,7 @@ public class LengthVisualizationComponent {
         HBox bar = new HBox(1);
         bar.setPadding(new Insets(5));
         bar.setPrefWidth(TOTAL_BAR_WIDTH);
+        bar.setFocusTraversable(false); // 포커스 비활성화 추가
         bar.getChildren().add(totalBar);
         
         container.getChildren().addAll(titleLabel, bar);
@@ -48,6 +50,7 @@ public class LengthVisualizationComponent {
         VBox container = new VBox(15);
         container.setPadding(new Insets(15));
         container.setStyle("-fx-border-color: #4CAF50; -fx-border-radius: 8; -fx-background-color: #f0f8f0; -fx-border-width: 2;");
+        container.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 제목
         Label titleLabel = new Label(String.format("%d ÷ %d", result.getTotalLength(), result.getUnitLength()));
@@ -74,6 +77,7 @@ public class LengthVisualizationComponent {
         VBox container = new VBox(15);
         container.setPadding(new Insets(15));
         container.setStyle("-fx-border-color: #FF9800; -fx-border-radius: 8; -fx-background-color: #FFF3E0; -fx-border-width: 2;");
+        container.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 제목
         Label titleLabel = new Label(String.format("%d ÷ %d - 나머지 분배", result.getTotalLength(), result.getUnitLength()));
@@ -97,25 +101,30 @@ public class LengthVisualizationComponent {
         VBox stepBox = new VBox(10);
         stepBox.setPadding(new Insets(10));
         stepBox.setStyle("-fx-border-color: #2196F3; -fx-border-radius: 5; -fx-background-color: #E3F2FD; -fx-border-width: 1;");
+        stepBox.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 단계 제목
         Label stepTitle = new Label("1단계: 기본 분할");
         stepTitle.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         stepTitle.setStyle("-fx-text-fill: #1976D2;");
+        stepTitle.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 수식
         Label formula = new Label(String.format("%d = %d × %d + %d", 
             result.getTotalLength(), result.getFullUnits(), result.getUnitLength(), result.getRemainingLength()));
         formula.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+        formula.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 시각적 바와 라벨을 포함하는 컨테이너
         VBox barContainer = new VBox(5);
         barContainer.setPadding(new Insets(5));
+        barContainer.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 바
         HBox bar = new HBox(0); // 간격을 0으로 설정
         bar.setPrefWidth(TOTAL_BAR_WIDTH);
         bar.setSpacing(0); // 추가로 간격 명시적 제거
+        bar.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 전체 바를 하나의 큰 Rectangle로 생성
         Rectangle totalBar = new Rectangle(TOTAL_BAR_WIDTH, BAR_HEIGHT);
@@ -127,6 +136,7 @@ public class LengthVisualizationComponent {
         StackPane barStack = new StackPane();
         barStack.setPrefWidth(TOTAL_BAR_WIDTH);
         barStack.setPrefHeight(BAR_HEIGHT);
+        barStack.setFocusTraversable(false); // 포커스 비활성화 추가
         barStack.getChildren().add(totalBar);
         
         // 몫만큼의 단위 바 (비율 계산) - 각 단위의 실제 비율로 계산
@@ -182,6 +192,7 @@ public class LengthVisualizationComponent {
         HBox labelRow = new HBox(0); // 간격을 0으로 설정
         labelRow.setPrefWidth(TOTAL_BAR_WIDTH);
         labelRow.setSpacing(0); // 추가로 간격 명시적 제거
+        labelRow.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 단위 라벨 - 바 전체의 가장 왼쪽에 배치
         if (result.getFullUnits() > 0) {
@@ -190,16 +201,19 @@ public class LengthVisualizationComponent {
             unitLabel.setStyle("-fx-text-fill: #1976D2; -fx-font-weight: bold;");
             unitLabel.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
             unitLabel.setPrefWidth(100); // 너비 증가
+            unitLabel.setFocusTraversable(false); // 포커스 비활성화 추가
             labelRow.getChildren().add(unitLabel);
             
             // 중간 공간을 빈 라벨로 채움
             Label middleSpace = new Label("");
             middleSpace.setPrefWidth(TOTAL_BAR_WIDTH - 180); // 단위 라벨(100) + 나머지 라벨(80) 공간 제외
+            middleSpace.setFocusTraversable(false); // 포커스 비활성화 추가
             labelRow.getChildren().add(middleSpace);
         } else {
             // 단위가 없는 경우 전체 공간을 빈 라벨로 채움
             Label middleSpace = new Label("");
             middleSpace.setPrefWidth(TOTAL_BAR_WIDTH - 80); // 나머지 라벨(80) 공간 제외
+            middleSpace.setFocusTraversable(false); // 포커스 비활성화 추가
             labelRow.getChildren().add(middleSpace);
         }
         
@@ -209,6 +223,7 @@ public class LengthVisualizationComponent {
         remainderLabel.setStyle("-fx-text-fill: #D32F2F; -fx-font-weight: bold;");
         remainderLabel.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
         remainderLabel.setPrefWidth(80); // 고정 너비 설정
+        remainderLabel.setFocusTraversable(false); // 포커스 비활성화 추가
         labelRow.getChildren().add(remainderLabel);
         
         // 총 길이 라벨 (바의 오른쪽 끝)
@@ -216,8 +231,10 @@ public class LengthVisualizationComponent {
         totalLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
         totalLabel.setStyle("-fx-text-fill: #2E7D32;");
         totalLabel.setPadding(new Insets(0, 0, 0, 10));
+        totalLabel.setFocusTraversable(false); // 포커스 비활성화 추가
         
         HBox barAndTotal = new HBox(5);
+        barAndTotal.setFocusTraversable(false); // 포커스 비활성화 추가
         barAndTotal.getChildren().addAll(bar, totalLabel);
         
         barContainer.getChildren().addAll(barAndTotal, labelRow);
@@ -225,19 +242,23 @@ public class LengthVisualizationComponent {
         // 길이 표시
         HBox lengthLabels = new HBox(10);
         lengthLabels.setPadding(new Insets(5));
+        lengthLabels.setFocusTraversable(false); // 포커스 비활성화 추가
         
         Label unitInfoLabel = new Label(String.format("단위: %d (%.1f%%)", result.getUnitLength(), unitRatio * 100));
         unitInfoLabel.setFont(Font.font("Arial", 14)); // 크게 표시
         unitInfoLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #1976D2;"); // 강조 스타일
+        unitInfoLabel.setFocusTraversable(false); // 포커스 비활성화 추가
         
         Label countLabel = new Label(String.format("개수: %d개", result.getFullUnits()));
         countLabel.setFont(Font.font("Arial", 14)); // 개수 크게 표시
         countLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #1976D2;"); // 강조 스타일
+        countLabel.setFocusTraversable(false); // 포커스 비활성화 추가
         
         Label remainderInfoLabel = new Label(String.format("나머지: %d (%.1f%%)", result.getRemainingLength(), 
             result.hasRemainder() ? (double) result.getRemainingLength() / result.getTotalLength() * 100 : 0));
         remainderInfoLabel.setFont(Font.font("Arial", 14)); // 크게 표시
         remainderInfoLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #D32F2F;"); // 강조 스타일
+        remainderInfoLabel.setFocusTraversable(false); // 포커스 비활성화 추가
         
         lengthLabels.getChildren().addAll(unitInfoLabel, countLabel, remainderInfoLabel);
         
@@ -249,11 +270,13 @@ public class LengthVisualizationComponent {
         VBox stepBox = new VBox(10);
         stepBox.setPadding(new Insets(10));
         stepBox.setStyle("-fx-border-color: #FF9800; -fx-border-radius: 5; -fx-background-color: #FFF3E0; -fx-border-width: 1;");
+        stepBox.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 단계 제목
         Label stepTitle = new Label("2단계: 나머지 분배");
         stepTitle.setFont(Font.font("Arial", FontWeight.BOLD, 14));
         stepTitle.setStyle("-fx-text-fill: #F57C00;");
+        stepTitle.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 나머지가 0인 경우 1단계와 동일한 결과 표시
         if (result.getRemainingLength() == 0) {
@@ -266,14 +289,17 @@ public class LengthVisualizationComponent {
             Label noRemainderMessage = new Label("나머지가 0이므로 1단계 결과와 동일합니다.");
             noRemainderMessage.setFont(Font.font("Arial", FontWeight.BOLD, 12));
             noRemainderMessage.setStyle("-fx-text-fill: #4CAF50;");
+            noRemainderMessage.setFocusTraversable(false); // 포커스 비활성화 추가
             
             // 1단계와 동일한 바 표시
             VBox barContainer = new VBox(5);
             barContainer.setPadding(new Insets(5));
+            barContainer.setFocusTraversable(false); // 포커스 비활성화 추가
             
             HBox bar = new HBox(0);
             bar.setPrefWidth(TOTAL_BAR_WIDTH);
             bar.setSpacing(0);
+            bar.setFocusTraversable(false); // 포커스 비활성화 추가
             
             Rectangle totalBar = new Rectangle(TOTAL_BAR_WIDTH, BAR_HEIGHT);
             totalBar.setFill(Color.LIGHTGRAY);
@@ -283,6 +309,7 @@ public class LengthVisualizationComponent {
             StackPane barStack = new StackPane();
             barStack.setPrefWidth(TOTAL_BAR_WIDTH);
             barStack.setPrefHeight(BAR_HEIGHT);
+            barStack.setFocusTraversable(false); // 포커스 비활성화 추가
             barStack.getChildren().add(totalBar);
             
             // 단위 바들 표시 (1단계와 동일)
@@ -307,6 +334,7 @@ public class LengthVisualizationComponent {
             HBox labelRow = new HBox(0);
             labelRow.setPrefWidth(TOTAL_BAR_WIDTH);
             labelRow.setSpacing(0);
+            labelRow.setFocusTraversable(false); // 포커스 비활성화 추가
             
             if (result.getFullUnits() > 0) {
                 Label unitLabel = new Label(String.valueOf(result.getUnitLength()));
@@ -314,14 +342,17 @@ public class LengthVisualizationComponent {
                 unitLabel.setStyle("-fx-text-fill: #1976D2; -fx-font-weight: bold;");
                 unitLabel.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
                 unitLabel.setPrefWidth(100); // 1단계와 동일한 너비
+                unitLabel.setFocusTraversable(false); // 포커스 비활성화 추가
                 labelRow.getChildren().add(unitLabel);
                 
                 Label middleSpace = new Label("");
                 middleSpace.setPrefWidth(TOTAL_BAR_WIDTH - 180); // 1단계와 동일한 계산
+                middleSpace.setFocusTraversable(false); // 포커스 비활성화 추가
                 labelRow.getChildren().add(middleSpace);
             } else {
                 Label middleSpace = new Label("");
                 middleSpace.setPrefWidth(TOTAL_BAR_WIDTH - 80);
+                middleSpace.setFocusTraversable(false); // 포커스 비활성화 추가
                 labelRow.getChildren().add(middleSpace);
             }
             
@@ -330,14 +361,17 @@ public class LengthVisualizationComponent {
             remainderLabel.setStyle("-fx-text-fill: #D32F2F; -fx-font-weight: bold;");
             remainderLabel.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
             remainderLabel.setPrefWidth(80);
+            remainderLabel.setFocusTraversable(false); // 포커스 비활성화 추가
             labelRow.getChildren().add(remainderLabel);
             
             Label totalLabel = new Label(String.valueOf(result.getTotalLength()));
             totalLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
             totalLabel.setStyle("-fx-text-fill: #2E7D32;");
             totalLabel.setPadding(new Insets(0, 0, 0, 10));
+            totalLabel.setFocusTraversable(false); // 포커스 비활성화 추가
             
             HBox barAndTotal = new HBox(5);
+            barAndTotal.setFocusTraversable(false); // 포커스 비활성화 추가
             barAndTotal.getChildren().addAll(bar, totalLabel);
             
             barContainer.getChildren().addAll(barAndTotal, labelRow);
@@ -350,15 +384,18 @@ public class LengthVisualizationComponent {
         Label formula = new Label(String.format("%d ÷ %d = %.2f (각 단위당 추가)", 
             result.getRemainingLength(), result.getFullUnits(), result.getDistributedPerPiece()));
         formula.setFont(Font.font("Arial", FontWeight.BOLD, 12));
+        formula.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 분배된 바와 라벨을 포함하는 컨테이너
         VBox barContainer = new VBox(5);
         barContainer.setPadding(new Insets(5));
+        barContainer.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 분배된 바
         HBox bar = new HBox(0); // 간격을 0으로 설정
         bar.setPrefWidth(TOTAL_BAR_WIDTH);
         bar.setSpacing(0); // 추가로 간격 명시적 제거
+        bar.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 전체 바를 하나의 큰 Rectangle로 생성
         Rectangle totalBar = new Rectangle(TOTAL_BAR_WIDTH, BAR_HEIGHT);
@@ -370,6 +407,7 @@ public class LengthVisualizationComponent {
         StackPane barStack = new StackPane();
         barStack.setPrefWidth(TOTAL_BAR_WIDTH);
         barStack.setPrefHeight(BAR_HEIGHT);
+        barStack.setFocusTraversable(false); // 포커스 비활성화 추가
         barStack.getChildren().add(totalBar);
         
         // 분배된 길이로 각 단위 바 (비율 계산) - 최종 단위의 실제 비율로 계산
@@ -396,6 +434,7 @@ public class LengthVisualizationComponent {
         HBox labelRow = new HBox(0); // 간격을 0으로 설정
         labelRow.setPrefWidth(TOTAL_BAR_WIDTH);
         labelRow.setSpacing(0); // 추가로 간격 명시적 제거
+        labelRow.setFocusTraversable(false); // 포커스 비활성화 추가
         
         // 최종 단위 라벨 - 바 전체의 가장 왼쪽에 배치
         if (result.getFullUnits() > 0) {
@@ -404,11 +443,13 @@ public class LengthVisualizationComponent {
             finalUnitLabel.setStyle("-fx-text-fill: #2E7D32; -fx-font-weight: bold;");
             finalUnitLabel.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
             finalUnitLabel.setPrefWidth(100); // 너비 증가
+            finalUnitLabel.setFocusTraversable(false); // 포커스 비활성화 추가
             labelRow.getChildren().add(finalUnitLabel);
             
             // 중간 공간을 빈 라벨로 채움
             Label middleSpace = new Label("");
             middleSpace.setPrefWidth(TOTAL_BAR_WIDTH - 100); // 단위 라벨(100) 공간 제외
+            middleSpace.setFocusTraversable(false); // 포커스 비활성화 추가
             labelRow.getChildren().add(middleSpace);
         }
         
@@ -417,6 +458,7 @@ public class LengthVisualizationComponent {
         totalLabel.setFont(Font.font("Arial", FontWeight.BOLD, 12));
         totalLabel.setStyle("-fx-text-fill: #2E7D32;");
         totalLabel.setPadding(new Insets(0, 0, 0, 10));
+        totalLabel.setFocusTraversable(false); // 포커스 비활성화 추가
         
         HBox barAndTotal = new HBox(5);
         barAndTotal.getChildren().addAll(bar, totalLabel);
@@ -426,25 +468,31 @@ public class LengthVisualizationComponent {
         // 최종 정보
         HBox finalInfo = new HBox(10);
         finalInfo.setPadding(new Insets(5));
+        finalInfo.setFocusTraversable(false); // 포커스 비활성화 추가
         
         Label originalLabel = new Label(String.format("원래: %d", result.getUnitLength()));
         originalLabel.setFont(Font.font("Arial", 14)); // 크게 표시
         originalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #1976D2;"); // 강조 스타일
+        originalLabel.setFocusTraversable(false); // 포커스 비활성화 추가
         
         Label countLabel = new Label(String.format("개수: %d개", result.getFullUnits()));
         countLabel.setFont(Font.font("Arial", 14)); // 개수 크게 표시
         countLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #2E7D32;"); // 강조 스타일
+        countLabel.setFocusTraversable(false); // 포커스 비활성화 추가
         
-        Label addedLabel = new Label(String.format("추가: %.2f", result.getDistributedPerPiece()));
+        Label addedLabel = new Label(String.format("추가됨: %.2f", result.getDistributedPerPiece()));
         addedLabel.setFont(Font.font("Arial", 14)); // 크게 표시
         addedLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #FF9800;"); // 강조 스타일
+        addedLabel.setFocusTraversable(false); // 포커스 비활성화 추가
         
         Label finalLabel = new Label(String.format("최종: %.2f (%.1f%%)", result.getFinalPieceSize(), finalUnitRatio * 100));
         finalLabel.setFont(Font.font("Arial", 14)); // 크게 표시
         finalLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #D32F2F;"); // 강조 스타일
+        finalLabel.setFocusTraversable(false); // 포커스 비활성화 추가
         
         finalInfo.getChildren().addAll(originalLabel, countLabel, addedLabel, finalLabel);
-        
+
+        stepBox.setFocusTraversable(false); // 포커스 비활성화 추가
         stepBox.getChildren().addAll(stepTitle, formula, barContainer, finalInfo);
         return stepBox;
     }
