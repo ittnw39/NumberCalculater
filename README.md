@@ -5,13 +5,12 @@
 ### 최신 버전 (v25.08.17)
 
 #### Windows 실행 파일 (Java 설치 불필요)
-- **EXE 파일**: [길이분할계산기_v25.08.17_Windows.zip](./길이분할계산기_v25.08.17_한글판_Windows.zip)
-  - 내용: `길이분할계산기.exe` + 런타임
+- **완전 독립 실행 EXE**: [길이분할계산기_v25.08.17_완전독립실행_Windows.zip](./길이분할계산기_v25.08.17_완전독립실행_Windows.zip)
+  - 내용: `LengthCalculator.exe` + JavaFX 런타임 (완전 자급자족)
+  - 크기: 46MB (JavaFX 런타임 포함)
 
-#### JAR 파일 (Java 11+ 필요)
-- **크로스 플랫폼**: [길이분할계산기_v25.08.17.jar](./길이분할계산기_v25.08.17.jar)
-
-> 💡 **EXE 파일은 설치 없이 바로 실행 가능합니다!** Java가 설치되어 있지 않아도 됩니다.
+> 💡 **완전 독립 실행 EXE 파일은 Java/JavaFX 설치 없이 바로 실행 가능합니다!**  
+> 📌 **완전 독립 실행**: JavaFX 런타임이 내장되어 있어 어떤 PC에서도 바로 실행됩니다.
 
 ---
 
@@ -108,24 +107,18 @@ cd NumberCalculater
 
 **생성되는 파일:**
 - `build/libs/길이분할계산기-25.08.17.jar` - 완전한 JAR 파일 (Java 필요)
-- `build/distributions/길이분할계산기/길이분할계산기.exe` - 독립 실행 EXE 파일
+- `build/distributions/LengthCalculator/LengthCalculator.exe` - 완전 독립 실행 EXE 파일 (JavaFX 런타임 포함)
 
-> 💡 **EXE 파일은 Java 설치 없이도 독립적으로 실행됩니다!**
+> 💡 **완전 독립 실행 EXE 파일은 Java/JavaFX 설치 없이도 독립적으로 실행됩니다!**
 
 ## 📱 사용법
 
 ### 0. 프로그램 실행
-#### Windows EXE 파일
+#### Windows 완전 독립 실행 EXE 파일
 1. 위에서 ZIP 파일을 다운로드합니다.
 2. ZIP 파일을 원하는 위치에 압축 해제합니다.
-3. `길이분할계산기.exe` 파일을 더블클릭하여 실행합니다.
-
-#### JAR 파일
-1. JAR 파일을 다운로드합니다.
-2. 명령 프롬프트(cmd)나 터미널에서 다음 명령을 실행합니다:
-   ```bash
-   java -jar 길이분할계산기_v25.08.17.jar
-   ```
+3. `LengthCalculator.exe` 파일을 더블클릭하여 실행합니다.
+4. Java나 JavaFX 설치가 필요하지 않습니다.
 
 ### 1. 숫자 입력
 - 상단 입력 필드에 나눌 숫자를 입력합니다.
@@ -174,9 +167,10 @@ cd NumberCalculater
 ## 📦 배포 및 설치
 
 ### Windows 실행 파일
-1. **독립 실행 EXE**: `길이분할계산기.exe`
-   - Java 런타임이 내장되어 있어 별도 설치 불필요
+1. **완전 독립 실행 EXE**: `LengthCalculator.exe`
+   - JavaFX 런타임이 내장되어 있어 별도 설치 불필요
    - 폴더 전체를 복사하여 배포 가능
+   - 어떤 Windows PC에서도 바로 실행 가능
 
 2. **JAR 파일**: `길이분할계산기-25.08.17.jar`
    - Java 11 이상이 설치된 환경에서 실행
