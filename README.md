@@ -5,7 +5,7 @@
 ### 최신 버전 (v25.08.17)
 
 #### Windows 실행 파일 (Java 설치 불필요)
-- **완전 독립 실행 EXE**: [길이분할계산기_v25.08.17_완전독립실행_Windows.zip](./길이분할계산기_v25.08.17_완전독립실행_Windows.zip)
+- **완전 독립 실행 EXE**: [길이분할계산기_v25.08.17_완전독립실행_Windows.zip](./길이분할계산기_v25.08.17_완전독립실행_Windows.zip?raw=true)
   - 내용: `LengthCalculator.exe` + JavaFX 런타임 (완전 자급자족)
   - 크기: 46MB (JavaFX 런타임 포함)
 
