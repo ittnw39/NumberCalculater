@@ -3,9 +3,15 @@
 ## 🚀 다운로드
 
 ### 최신 버전 (v25.08.17)
-- **Windows**: [길이 분할 계산기 v25.08.17.exe](https://github.com/ittnw39/NumberCalculater/releases/download/v25.08.17/길이_분할_계산기_v25.08.17.exe)
 
-> 💡 **설치 없이 바로 실행 가능합니다!** Java가 설치되어 있지 않아도 됩니다.
+#### Windows 실행 파일 (Java 설치 불필요)
+- **EXE 파일**: [길이분할계산기_v25.08.17_Windows.zip](./길이분할계산기_v25.08.17_한글판_Windows.zip)
+  - 내용: `길이분할계산기.exe` + 런타임
+
+#### JAR 파일 (Java 11+ 필요)
+- **크로스 플랫폼**: [길이분할계산기_v25.08.17.jar](./길이분할계산기_v25.08.17.jar)
+
+> 💡 **EXE 파일은 설치 없이 바로 실행 가능합니다!** Java가 설치되어 있지 않아도 됩니다.
 
 ---
 
@@ -84,17 +90,42 @@ cd NumberCalculater
 
 ### 3. JAR 파일 생성
 ```bash
-# JAR 파일 생성
+# 기본 JAR 파일 생성
 ./gradlew jar
+
+# 완전한 JAR 파일 생성 (모든 의존성 포함)
+./gradlew shadowJar
 ```
 
 ### 4. 실행 파일 생성 (Windows)
 ```bash
-# jpackage를 사용한 exe 파일 생성
-./gradlew jpackage
+# Shadow JAR 파일 생성 (모든 의존성 포함)
+./gradlew shadowJar
+
+# JPackage를 사용한 EXE 파일 생성
+./gradlew createExe
 ```
 
+**생성되는 파일:**
+- `build/libs/길이분할계산기-25.08.17.jar` - 완전한 JAR 파일 (Java 필요)
+- `build/distributions/길이분할계산기/길이분할계산기.exe` - 독립 실행 EXE 파일
+
+> 💡 **EXE 파일은 Java 설치 없이도 독립적으로 실행됩니다!**
+
 ## 📱 사용법
+
+### 0. 프로그램 실행
+#### Windows EXE 파일
+1. 위에서 ZIP 파일을 다운로드합니다.
+2. ZIP 파일을 원하는 위치에 압축 해제합니다.
+3. `길이분할계산기.exe` 파일을 더블클릭하여 실행합니다.
+
+#### JAR 파일
+1. JAR 파일을 다운로드합니다.
+2. 명령 프롬프트(cmd)나 터미널에서 다음 명령을 실행합니다:
+   ```bash
+   java -jar 길이분할계산기_v25.08.17.jar
+   ```
 
 ### 1. 숫자 입력
 - 상단 입력 필드에 나눌 숫자를 입력합니다.
@@ -137,4 +168,20 @@ cd NumberCalculater
 - **Gradle**: 8.5
 - **아키텍처**: MVC 패턴
 - **UI 프레임워크**: JavaFX
-- **폰트**: 맑은 고딕 (Malgun Gothic) 
+- **폰트**: 맑은 고딕 (Malgun Gothic)
+- **빌드 도구**: Shadow JAR (의존성 포함), JPackage (네이티브 실행파일)
+
+## 📦 배포 및 설치
+
+### Windows 실행 파일
+1. **독립 실행 EXE**: `길이분할계산기.exe`
+   - Java 런타임이 내장되어 있어 별도 설치 불필요
+   - 폴더 전체를 복사하여 배포 가능
+
+2. **JAR 파일**: `길이분할계산기-25.08.17.jar`
+   - Java 11 이상이 설치된 환경에서 실행
+   - `java -jar 길이분할계산기-25.08.17.jar` 명령으로 실행
+
+### 시스템 요구사항
+- **EXE 파일**: Windows 10/11 (64비트)
+- **JAR 파일**: Java 11+ 설치된 모든 운영체제 
