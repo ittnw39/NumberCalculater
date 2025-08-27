@@ -19,6 +19,10 @@ public class NumberSelectionComponent {
     private final ToggleGroup unitToggleGroup;
     private final CalculationService calculationService;
     
+    // 분배 개수 입력 필드 추가
+    private final TextField distributionCountField;
+    private final Label distributionCountLabel;
+    
     public NumberSelectionComponent() {
         this.calculationService = new CalculationService();
         this.numberCheckBoxes = createCheckBoxes();
@@ -29,6 +33,15 @@ public class NumberSelectionComponent {
         this.customUnitField.setPromptText("단위 입력");
         this.customUnitField.setFont(Font.font("Malgun Gothic", 14)); // 폰트 설정
         this.customUnitField.setDisable(true);
+        
+        // 분배 개수 입력 필드 초기화
+        this.distributionCountField = new TextField();
+        this.distributionCountField.setPromptText("분배할 개수 입력");
+        this.distributionCountField.setFont(Font.font("Malgun Gothic", 14));
+        this.distributionCountField.setPrefWidth(120);
+        
+        this.distributionCountLabel = new Label("분배 개수:");
+        this.distributionCountLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
         
         setupCustomUnitControls();
     }
@@ -108,10 +121,19 @@ public class NumberSelectionComponent {
         
         customUnitBox.getChildren().addAll(customLabel, customInputBox);
         
+        // 분배 개수 입력 영역 추가
+        VBox distributionCountBox = new VBox(8);
+        distributionCountBox.setStyle("-fx-border-color: #cccccc; -fx-border-radius: 3; -fx-padding: 12;");
+        
+        HBox distributionInputBox = new HBox(8);
+        distributionInputBox.getChildren().addAll(distributionCountLabel, distributionCountField);
+        
+        distributionCountBox.getChildren().addAll(distributionInputBox);
+        
         // 버튼들
         HBox buttonBox = createButtonBox();
         
-        panel.getChildren().addAll(selectLabel, checkboxGrid, customUnitBox, buttonBox);
+        panel.getChildren().addAll(selectLabel, checkboxGrid, customUnitBox, distributionCountBox, buttonBox);
         return panel;
     }
     
@@ -147,6 +169,7 @@ public class NumberSelectionComponent {
     public void reset() {
         deselectAll();
         customUnitField.clear();
+        distributionCountField.clear(); // 분배 개수 필드도 초기화
     }
     
     public List<Integer> getSelectedNumbers() {
@@ -203,5 +226,40 @@ public class NumberSelectionComponent {
             return customUnitField.getText().trim();
         }
         return "";
+    }
+    
+    /**
+     * 분배 개수 가져오기
+     */
+    public String getDistributionCount() {
+        return distributionCountField.getText().trim();
+    }
+    
+    /**
+     * 분배 개수가 유효한지 확인
+     */
+    public boolean hasValidDistributionCount() {
+        String countText = getDistributionCount();
+        if (countText.isEmpty()) {
+            return false;
+        }
+        
+        try {
+            int count = Integer.parseInt(countText);
+            return count > 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    /**
+     * 분배 개수 값을 정수로 반환
+     */
+    public int getDistributionCountValue() {
+        try {
+            return Integer.parseInt(getDistributionCount());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 } 

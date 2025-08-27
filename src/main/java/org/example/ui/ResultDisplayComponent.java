@@ -93,6 +93,23 @@ public class ResultDisplayComponent {
         }
     }
     
+    /**
+     * 개수 지정 분배 결과 표시
+     */
+    public void displayCustomDistributionResults(List<CalculationResult> results) {
+        clearResults();
+        
+        Label titleLabel = new Label("개수 지정 분배 결과");
+        titleLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 16));
+        resultContainer.getChildren().add(titleLabel);
+        
+        for (CalculationResult result : results) {
+            // 개수 지정 분배 시각화 컴포넌트 추가
+            VBox customDistributionVisualization = lengthVisualizer.createCustomDistributionVisualization(result);
+            resultContainer.getChildren().add(customDistributionVisualization);
+        }
+    }
+    
     public void displayCustomDivisionResult(CalculationResult result) {
         clearResults();
         

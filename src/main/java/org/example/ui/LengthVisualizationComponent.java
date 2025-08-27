@@ -19,6 +19,7 @@ public class LengthVisualizationComponent {
     private static final Color UNIT_COLOR = Color.BLUE;
     private static final Color REMAINDER_COLOR = Color.RED;
     private static final Color DISTRIBUTED_COLOR = Color.GREEN;
+    private static final Color CUSTOM_DISTRIBUTED_COLOR = Color.PURPLE; // 개수 지정 분배용 색상
     
     public VBox createTotalLengthBar(int totalLength) {
         VBox container = new VBox(10);
@@ -519,6 +520,198 @@ public class LengthVisualizationComponent {
         finalInfo.getChildren().addAll(originalLabel, countLabel, addedLabel, finalLabel);
         
         stepBox.setFocusTraversable(false); // 포커스 비활성화 추가
+        stepBox.getChildren().addAll(stepTitle, formula, barContainer, finalInfo);
+        return stepBox;
+    }
+    
+    /**
+     * 개수 지정 분배 시각화 생성
+     */
+    public VBox createCustomDistributionVisualization(CalculationResult result) {
+        VBox container = new VBox(15);
+        container.setPadding(new Insets(15));
+        container.setStyle("-fx-border-color: #9C27B0; -fx-border-radius: 8; -fx-background-color: #F3E5F5; -fx-border-width: 2;");
+        container.setFocusTraversable(false);
+        
+        // 제목
+        Label titleLabel = new Label(String.format("%d ÷ %d (개수 지정 분배)", result.getTotalLength(), result.getUnitLength()));
+        titleLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 18));
+        titleLabel.setStyle("-fx-text-fill: #7B1FA2;");
+        
+        // 개수 지정 분배 단계
+        VBox customDistributionBox = createCustomDistributionStep(result);
+        
+        container.getChildren().add(titleLabel);
+        container.getChildren().add(customDistributionBox);
+        
+        return container;
+    }
+    
+    /**
+     * 개수 지정 분배 단계 생성
+     */
+    private VBox createCustomDistributionStep(CalculationResult result) {
+        VBox stepBox = new VBox(10);
+        stepBox.setPadding(new Insets(10));
+        stepBox.setStyle("-fx-border-color: #9C27B0; -fx-border-radius: 5; -fx-background-color: #F3E5F5; -fx-border-width: 1;");
+        stepBox.setFocusTraversable(false);
+        
+        // 단계 제목
+        Label stepTitle = new Label(String.format("개수 지정 분배 (분배 개수: %d개)", result.getCustomDistributionCount()));
+        stepTitle.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
+        stepTitle.setStyle("-fx-text-fill: #7B1FA2;");
+        stepTitle.setFocusTraversable(false);
+        
+        // 분배 수식
+        Label formula = new Label(String.format("%d ÷ %d = %.2f (지정된 %d개에 각각 추가)", 
+            result.getRemainingLength(), result.getCustomDistributionCount(), 
+            result.getCustomDistributedPerPiece(), result.getCustomDistributionCount()));
+        formula.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
+        formula.setStyle("-fx-text-fill: #7B1FA2;");
+        formula.setFocusTraversable(false);
+        
+        // 분배된 바와 라벨을 포함하는 컨테이너
+        VBox barContainer = new VBox(5);
+        barContainer.setPadding(new Insets(5));
+        barContainer.setFocusTraversable(false);
+        
+        // 분배된 바
+        HBox bar = new HBox(0);
+        bar.setPrefWidth(TOTAL_BAR_WIDTH);
+        bar.setSpacing(0);
+        bar.setFocusTraversable(false);
+        
+        // 전체 바를 하나의 큰 Rectangle로 생성
+        Rectangle totalBar = new Rectangle(TOTAL_BAR_WIDTH, BAR_HEIGHT);
+        totalBar.setFill(Color.LIGHTGRAY);
+        totalBar.setStroke(Color.BLACK);
+        totalBar.setStrokeWidth(1);
+        
+        // StackPane을 사용하여 여러 Rectangle을 겹쳐서 표시
+        StackPane barStack = new StackPane();
+        barStack.setPrefWidth(TOTAL_BAR_WIDTH);
+        barStack.setPrefHeight(BAR_HEIGHT);
+        barStack.setFocusTraversable(false);
+        barStack.getChildren().add(totalBar);
+        
+        // 각 단위 바를 원래 몫과 추가된 나머지로 구분하여 표시
+        double unitRatio = (double) result.getUnitLength() / result.getTotalLength();
+        double unitWidth = unitRatio * TOTAL_BAR_WIDTH;
+        double addedRatio = result.getCustomDistributedPerPiece() / result.getTotalLength();
+        double addedWidth = addedRatio * TOTAL_BAR_WIDTH;
+        
+        // 단위 바들을 왼쪽부터 순서대로 배치
+        double currentX = 0;
+        for (int i = 0; i < result.getCustomDistributionCount(); i++) {
+            // 원래 몫 부분 (파란색)
+            Rectangle originalUnitBar = new Rectangle(unitWidth, BAR_HEIGHT);
+            originalUnitBar.setFill(UNIT_COLOR);
+            originalUnitBar.setStroke(Color.BLACK);
+            originalUnitBar.setStrokeWidth(1);
+            originalUnitBar.setTranslateX(currentX - TOTAL_BAR_WIDTH / 2 + unitWidth / 2);
+            barStack.getChildren().add(originalUnitBar);
+            
+            // 추가된 나머지 부분 (보라색 - 개수 지정 분배용)
+            Rectangle addedBar = new Rectangle(addedWidth, BAR_HEIGHT);
+            addedBar.setFill(CUSTOM_DISTRIBUTED_COLOR);
+            addedBar.setStroke(Color.BLACK);
+            addedBar.setStrokeWidth(1);
+            addedBar.setTranslateX(currentX + unitWidth - TOTAL_BAR_WIDTH / 2 + addedWidth / 2);
+            barStack.getChildren().add(addedBar);
+            
+            currentX += unitWidth + addedWidth;
+        }
+        
+        // 나머지 단위들 (분배되지 않은 것들) - 회색으로 표시
+        for (int i = result.getCustomDistributionCount(); i < result.getFullUnits(); i++) {
+            Rectangle remainingUnitBar = new Rectangle(unitWidth, BAR_HEIGHT);
+            remainingUnitBar.setFill(Color.LIGHTGRAY);
+            remainingUnitBar.setStroke(Color.BLACK);
+            remainingUnitBar.setStrokeWidth(1);
+            remainingUnitBar.setTranslateX(currentX - TOTAL_BAR_WIDTH / 2 + unitWidth / 2);
+            barStack.getChildren().add(remainingUnitBar);
+            
+            currentX += unitWidth;
+        }
+        
+        bar.getChildren().add(barStack);
+        
+        // 바 아래 라벨들
+        HBox labelRow = new HBox(0);
+        labelRow.setPrefWidth(TOTAL_BAR_WIDTH);
+        labelRow.setSpacing(0);
+        labelRow.setFocusTraversable(false);
+        
+        // 최종 단위 라벨 - 바 전체의 가장 왼쪽에 배치
+        if (result.getCustomDistributionCount() > 0) {
+            // 최종값 부분 (굵게)
+            Label finalValueLabel = new Label(String.format("%.1f", result.getCustomFinalPieceSize()));
+            finalValueLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
+            finalValueLabel.setStyle("-fx-text-fill: #7B1FA2;");
+            finalValueLabel.setFocusTraversable(false);
+            
+            // 괄호 부분 (일반)
+            Label bracketLabel = new Label(String.format(" (%d+%.2f)", result.getUnitLength(), result.getCustomDistributedPerPiece()));
+            bracketLabel.setFont(Font.font("Malgun Gothic", 14));
+            bracketLabel.setStyle("-fx-text-fill: #7B1FA2;");
+            bracketLabel.setFocusTraversable(false);
+            
+            // 두 라벨을 담을 HBox
+            HBox combinedLabel = new HBox(0);
+            combinedLabel.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+            combinedLabel.setPrefWidth(150);
+            combinedLabel.setFocusTraversable(false);
+            combinedLabel.getChildren().addAll(finalValueLabel, bracketLabel);
+            
+            labelRow.getChildren().add(combinedLabel);
+            
+            // 중간 공간을 빈 라벨로 채움
+            Label middleSpace = new Label("");
+            middleSpace.setPrefWidth(TOTAL_BAR_WIDTH - 150);
+            middleSpace.setFocusTraversable(false);
+            labelRow.getChildren().add(middleSpace);
+        }
+        
+        // 총 길이 라벨 (바의 오른쪽 끝)
+        Label totalLabel = new Label(String.valueOf(result.getTotalLength()));
+        totalLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
+        totalLabel.setStyle("-fx-text-fill: #2E7D32;");
+        totalLabel.setPadding(new Insets(0, 0, 0, 10));
+        totalLabel.setFocusTraversable(false);
+        
+        HBox barAndTotal = new HBox(5);
+        barAndTotal.setFocusTraversable(false);
+        barAndTotal.getChildren().addAll(bar, totalLabel);
+        
+        barContainer.getChildren().addAll(barAndTotal, labelRow);
+        
+        // 최종 정보
+        HBox finalInfo = new HBox(10);
+        finalInfo.setPadding(new Insets(5));
+        finalInfo.setFocusTraversable(false);
+        
+        Label originalLabel = new Label(String.format("원래 단위: %d", result.getUnitLength()));
+        originalLabel.setFont(Font.font("Malgun Gothic", 14));
+        originalLabel.setStyle("-fx-text-fill: #1976D2;");
+        originalLabel.setFocusTraversable(false);
+        
+        Label distributionCountLabel = new Label(String.format("분배 개수: %d개", result.getCustomDistributionCount()));
+        distributionCountLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
+        distributionCountLabel.setStyle("-fx-text-fill: #7B1FA2;");
+        distributionCountLabel.setFocusTraversable(false);
+        
+        Label addedLabel = new Label(String.format("추가됨: %.2f", result.getCustomDistributedPerPiece()));
+        addedLabel.setFont(Font.font("Malgun Gothic", 14));
+        addedLabel.setStyle("-fx-text-fill: #9C27B0;");
+        addedLabel.setFocusTraversable(false);
+        
+        Label finalLabel = new Label(String.format("최종: %.2f", result.getCustomFinalPieceSize()));
+        finalLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
+        finalLabel.setStyle("-fx-text-fill: #7B1FA2;");
+        finalLabel.setFocusTraversable(false);
+        
+        finalInfo.getChildren().addAll(originalLabel, distributionCountLabel, addedLabel, finalLabel);
+        
         stepBox.getChildren().addAll(stepTitle, formula, barContainer, finalInfo);
         return stepBox;
     }

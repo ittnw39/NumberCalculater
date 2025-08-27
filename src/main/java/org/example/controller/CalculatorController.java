@@ -123,5 +123,54 @@ public class CalculatorController {
         }
     }
     
-
+    /**
+     * 개수 지정 분배 계산 처리
+     */
+    public void handleCustomDistributionCalculation() {
+        if (inputField == null) return;
+        
+        String input = inputField.getText();
+        
+        if (!calculationService.isValidInput(input)) {
+            resultDisplay.showMessage("유효한 숫자를 입력하세요.");
+            return;
+        }
+        
+        List<Integer> selectedNumbers = numberSelection.getSelectedNumbers();
+        
+        if (!numberSelection.hasValidSelection()) {
+            resultDisplay.showMessage("계산할 숫자를 하나 이상 선택해주세요.");
+            return;
+        }
+        
+        if (!numberSelection.hasValidDistributionCount()) {
+            resultDisplay.showMessage("유효한 분배 개수를 입력해주세요.");
+            return;
+        }
+        
+        try {
+            int num = Integer.parseInt(input);
+            int distributionCount = numberSelection.getDistributionCountValue();
+            
+            // 분배 개수가 몫보다 큰지 확인
+            boolean isValidCount = true;
+            for (int divisor : selectedNumbers) {
+                int quotient = num / divisor;
+                if (distributionCount > quotient) {
+                    isValidCount = false;
+                    break;
+                }
+            }
+            
+            if (!isValidCount) {
+                resultDisplay.showMessage("분배 개수는 몫보다 클 수 없습니다.");
+                return;
+            }
+            
+            List<CalculationResult> results = calculationService.calculateCustomDistribution(num, selectedNumbers, distributionCount);
+            resultDisplay.displayCustomDistributionResults(results);
+        } catch (Exception e) {
+            resultDisplay.showMessage("계산 중 오류가 발생했습니다.");
+        }
+    }
 } 

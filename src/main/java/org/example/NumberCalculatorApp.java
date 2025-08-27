@@ -104,52 +104,61 @@ public class NumberCalculatorApp extends Application {
     }
     
     private VBox createButtonSection(CalculatorController controller) {
-        VBox section = new VBox(10); // 간격을 0으로 설정하여 버튼들이 붙어있도록 함
+        VBox section = new VBox(10); // 간격을 10으로 설정
         section.setMinWidth(230); // 최소 너비 줄임
-        section.setPrefHeight(300); // 선호 높이 설정
-        section.setMinHeight(250); // 최소 높이 설정
+        section.setPrefHeight(400); // 선호 높이 증가 (버튼 4개)
+        section.setMinHeight(350); // 최소 높이 증가
         section.setAlignment(Pos.CENTER); // 중앙 정렬
         
         Button remainderBtn = new Button("선택한 단위로 나누기(나머지 구하기)");
         remainderBtn.setMinWidth(180); // 최소 너비 줄임
         remainderBtn.setPrefWidth(220); // 선호 너비 조정
         remainderBtn.setMaxWidth(Double.MAX_VALUE);
-        remainderBtn.setMinHeight(60); // 최소 높이 설정
+        remainderBtn.setMinHeight(50); // 최소 높이 조정
         remainderBtn.setMaxHeight(Double.MAX_VALUE); // 높이 제한 해제
-        remainderBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 18)); // 폰트 설정
+        remainderBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 16)); // 폰트 크기 조정
         
         Button lengthDivisionBtn = new Button("1단계: 선택한 단위로 분할하기");
         lengthDivisionBtn.setMinWidth(180); // 최소 너비 줄임
         lengthDivisionBtn.setPrefWidth(220); // 선호 너비 조정
         lengthDivisionBtn.setMaxWidth(Double.MAX_VALUE);
-        lengthDivisionBtn.setMinHeight(60); // 최소 높이 설정
+        lengthDivisionBtn.setMinHeight(50); // 최소 높이 조정
         lengthDivisionBtn.setMaxHeight(Double.MAX_VALUE); // 높이 제한 해제
-        lengthDivisionBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 18)); // 폰트 설정
+        lengthDivisionBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 16)); // 폰트 크기 조정
         
-        Button distributeBtn = new Button("2단계: 나머지 분배하기");
+        Button distributeBtn = new Button("2단계: 전체 분배하기");
         distributeBtn.setMinWidth(180); // 최소 너비 줄임
         distributeBtn.setPrefWidth(220); // 선호 너비 조정
         distributeBtn.setMaxWidth(Double.MAX_VALUE);
-        distributeBtn.setMinHeight(60); // 최소 높이 설정
+        distributeBtn.setMinHeight(50); // 최소 높이 조정
         distributeBtn.setMaxHeight(Double.MAX_VALUE); // 높이 제한 해제
-        distributeBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 18)); // 폰트 설정
+        distributeBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 16)); // 폰트 크기 조정
+        
+        Button customDistributeBtn = new Button("2단계: 개수 지정 분배하기");
+        customDistributeBtn.setMinWidth(180); // 최소 너비 줄임
+        customDistributeBtn.setPrefWidth(220); // 선호 너비 조정
+        customDistributeBtn.setMaxWidth(Double.MAX_VALUE);
+        customDistributeBtn.setMinHeight(50); // 최소 높이 조정
+        customDistributeBtn.setMaxHeight(Double.MAX_VALUE); // 높이 제한 해제
+        customDistributeBtn.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 16)); // 폰트 크기 조정
         
         // 버튼 이벤트 연결
         remainderBtn.setOnAction(e -> controller.handleRemainderCalculation());
         lengthDivisionBtn.setOnAction(e -> controller.handleLengthDivisionCalculation());
         distributeBtn.setOnAction(e -> controller.handleDistributionCalculation());
+        customDistributeBtn.setOnAction(e -> controller.handleCustomDistributionCalculation());
         
-        section.getChildren().addAll(remainderBtn, lengthDivisionBtn, distributeBtn);
+        section.getChildren().addAll(remainderBtn, lengthDivisionBtn, distributeBtn, customDistributeBtn);
         
         // 각 버튼이 VBox의 높이를 균등하게 나누어 가지도록 설정
         VBox.setVgrow(remainderBtn, Priority.ALWAYS);
         VBox.setVgrow(lengthDivisionBtn, Priority.ALWAYS);
         VBox.setVgrow(distributeBtn, Priority.ALWAYS);
+        VBox.setVgrow(customDistributeBtn, Priority.ALWAYS);
         
         return section;
     }
     
-
 
     public static void main(String[] args) {
         launch(args);
