@@ -2,18 +2,28 @@
 
 ## 🚀 다운로드
 
-### 최신 버전 (v25.08.27)
+### 최신 버전 (v25.11.19)
 
 #### Windows 실행 파일 (Java 설치 불필요)
-- **독립 실행 EXE**: [길이분할계산기_v25.08.27_완전독립실행_Windows.zip](./길이분할계산기_v25.08.27_독립실행_Windows.zip?raw=true)
+- **독립 실행 EXE**: [길이분할계산기_v25.11.19_독립실행_Windows.zip](https://github.com/ittnw39/NumberCalculater/raw/main/길이분할계산기_v25.11.19_독립실행_Windows.zip)
   - 내용: `LengthCalculator.exe` + JavaFX 런타임
-  - 크기: 56.5MB (JavaFX 런타임 포함)
-  - **새로운 기능**: 개수 지정 분배 기능 추가
+  - 크기: 약 60MB (JavaFX 런타임 포함)
+  - **새로운 기능**: 
+    - 태그 스타일 결과 표시
+    - 단위 범위 확장 (1000~1800)
+    - 개수 지정 분배 에러 처리 개선
+    - UI 개선 (태그 스타일, 줄바꿈 등)
 
 ### 이전 버전
 
-#### Windows 실행 파일 (Java 설치 불필요)
-- **독립 실행 EXE**: [길이분할계산기_v25.08.17_완전독립실행_Windows.zip](./길이분할계산기_v25.08.17_독립실행_Windows.zip?raw=true)
+#### v25.08.27
+- **독립 실행 EXE**: [길이분할계산기_v25.08.27_독립실행_Windows.zip](https://github.com/ittnw39/NumberCalculater/raw/main/길이분할계산기_v25.08.27_독립실행_Windows.zip)
+  - 내용: `LengthCalculator.exe` + JavaFX 런타임
+  - 크기: 56.5MB (JavaFX 런타임 포함)
+  - **기능**: 개수 지정 분배 기능 추가
+
+#### v25.08.17
+- **독립 실행 EXE**: [길이분할계산기_v25.08.17_독립실행_Windows.zip](https://github.com/ittnw39/NumberCalculater/raw/main/길이분할계산기_v25.08.17_독립실행_Windows.zip)
   - 내용: `LengthCalculator.exe` + JavaFX 런타임
   - 크기: 47.9MB (JavaFX 런타임 포함)
   - **기능**: 기본 분할 및 전체 분배 기능
@@ -117,7 +127,7 @@ cd NumberCalculater
 ```
 
 **생성되는 파일:**
-- `build/libs/길이분할계산기-25.08.27.jar` - 완전한 JAR 파일 (Java 필요)
+- `build/libs/길이분할계산기-25.11.19.jar` - 완전한 JAR 파일 (Java 필요)
 - `build/distributions/LengthCalculator/LengthCalculator.exe` - 독립 실행 EXE 파일 (JavaFX 런타임 포함)
 
 > 💡 **완전 독립 실행 EXE 파일은 Java/JavaFX 설치 없이도 독립적으로 실행됩니다!**
@@ -185,9 +195,9 @@ cd NumberCalculater
    - 폴더 전체를 복사하여 배포 가능
    - 어떤 Windows PC에서도 바로 실행 가능
 
-2. **JAR 파일**: `길이분할계산기-25.08.27.jar`
+2. **JAR 파일**: `길이분할계산기-25.11.19.jar`
    - Java 11 이상이 설치된 환경에서 실행
-   - `java -jar 길이분할계산기-25.08.27.jar` 명령으로 실행
+   - `java -jar 길이분할계산기-25.11.19.jar` 명령으로 실행
 
 ### 시스템 요구사항
 - **EXE 파일**: Windows 10/11 (64비트)

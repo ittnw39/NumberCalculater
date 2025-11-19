@@ -23,7 +23,6 @@ public class ResultDisplayComponent {
         this.scrollPane = new ScrollPane();
         this.scrollPane.setContent(resultContainer);
         this.scrollPane.setFitToWidth(true);
-        this.scrollPane.setPrefHeight(400);
         this.scrollPane.setFocusTraversable(false); // 포커스 비활성화
     }
     
@@ -107,6 +106,33 @@ public class ResultDisplayComponent {
             // 개수 지정 분배 시각화 컴포넌트 추가
             VBox customDistributionVisualization = lengthVisualizer.createCustomDistributionVisualization(result);
             resultContainer.getChildren().add(customDistributionVisualization);
+        }
+    }
+    
+    /**
+     * 개수 지정 분배 결과 표시 (에러 포함)
+     * @param validResults 계산 가능한 결과 리스트
+     * @param errorUnits 계산 불가능한 단위 정보 리스트 (각 요소는 {totalLength, unitLength} 배열)
+     */
+    public void displayCustomDistributionResultsWithErrors(List<CalculationResult> validResults, List<int[]> errorUnits) {
+        clearResults();
+        
+        Label titleLabel = new Label("개수 지정 분배 결과");
+        titleLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 16));
+        resultContainer.getChildren().add(titleLabel);
+        
+        // 계산 가능한 결과 표시
+        for (CalculationResult result : validResults) {
+            VBox customDistributionVisualization = lengthVisualizer.createCustomDistributionVisualization(result);
+            resultContainer.getChildren().add(customDistributionVisualization);
+        }
+        
+        // 계산 불가능한 단위 에러 카드 표시
+        for (int[] errorUnit : errorUnits) {
+            int totalLength = errorUnit[0];
+            int unitLength = errorUnit[1];
+            VBox errorCard = lengthVisualizer.createCustomDistributionErrorCard(totalLength, unitLength, "분배 개수는 몫보다 클 수 없습니다.");
+            resultContainer.getChildren().add(errorCard);
         }
     }
     

@@ -2,12 +2,14 @@ package org.example;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
+import javafx.stage.Screen;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import org.example.controller.CalculatorController;
@@ -60,7 +62,10 @@ public class NumberCalculatorApp extends Application {
         
         Label resultLabel = new Label("분할 결과:");
         resultLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
-        resultSection.getChildren().addAll(resultLabel, controller.getResultDisplay().getScrollPane());
+        ScrollPane scrollPane = controller.getResultDisplay().getScrollPane();
+        resultSection.getChildren().addAll(resultLabel, scrollPane);
+        // ScrollPane이 남은 공간을 모두 차지하도록 설정
+        VBox.setVgrow(scrollPane, Priority.ALWAYS);
         
         // 전체 레이아웃 (상단 2열 + 하단 결과)
         VBox mainLayout = new VBox(0);
@@ -84,9 +89,28 @@ public class NumberCalculatorApp extends Application {
         
         Scene scene = new Scene(mainLayout, 1200, 700); // 기본 크기 증가
         stage.setTitle("길이 분할 계산기");
-        stage.setMinWidth(1150); // 최소 너비 증가
+        stage.setMinWidth(1300); // 최소 너비 증가
         stage.setMinHeight(600); // 최소 높이 설정
         stage.setScene(scene);
+        
+        // 화면 크기 가져오기
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        double screenWidth = screenBounds.getWidth();
+        double screenHeight = screenBounds.getHeight();
+        
+        // 너비는 화면의 65%, 높이는 화면의 75%
+        double windowWidth = screenWidth * 0.65;
+        double windowHeight = screenHeight * 0.95;
+        
+        // 화면 가운데에 위치
+        double windowX = (screenWidth - windowWidth) / 2;
+        double windowY = (screenHeight - windowHeight) / 2;
+        
+        stage.setWidth(windowWidth);
+        stage.setHeight(windowHeight);
+        stage.setX(windowX);
+        stage.setY(windowY);
+        
         stage.show();
     }
     

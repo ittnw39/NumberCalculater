@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.example"
-version = "25.08.27"
+version = "25.11.19"
 
 repositories { 
     mavenCentral() 
@@ -98,7 +98,13 @@ tasks.register<Exec>("createExe") {
 
     doFirst {
         // 이전 빌드 잔여물 제거(깨진 이름 포함 폴더까지 싹 정리)
-        delete("build/distributions")
+        // Windows에서 파일이 잠겨있을 수 있으므로 강제 삭제 시도
+        try {
+            delete("build/distributions")
+        } catch (e: Exception) {
+            println("경고: build/distributions 삭제 실패. 실행 중인 프로세스가 있는지 확인하세요.")
+            println("해결 방법: LengthCalculator.exe가 실행 중이면 종료한 후 다시 시도하세요.")
+        }
     }
 
     commandLine(

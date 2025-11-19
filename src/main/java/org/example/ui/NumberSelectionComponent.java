@@ -7,6 +7,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import org.example.service.CalculationService;
 import java.util.List;
 import java.util.ArrayList;
@@ -38,7 +39,12 @@ public class NumberSelectionComponent {
         this.distributionCountField = new TextField();
         this.distributionCountField.setPromptText("분배할 개수 입력");
         this.distributionCountField.setFont(Font.font("Malgun Gothic", 14));
-        this.distributionCountField.setPrefWidth(120);
+        this.distributionCountField.setMaxWidth(Double.MAX_VALUE); // 최대 너비 제한 해제
+        
+        // 입력 시 에러 스타일 자동 제거
+        this.distributionCountField.textProperty().addListener((observable, oldValue, newValue) -> {
+            clearDistributionCountFieldError();
+        });
         
         this.distributionCountLabel = new Label("분배 개수:");
         this.distributionCountLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
@@ -100,13 +106,17 @@ public class NumberSelectionComponent {
         // 기본 단위 체크박스 그리드
         GridPane checkboxGrid = new GridPane();
         checkboxGrid.setHgap(20); // 체크박스 세트 간 간격 증가
-        checkboxGrid.setVgap(20); // 간격 증가
+        checkboxGrid.setVgap(15); // 행 간 간격
         checkboxGrid.setMinWidth(200); // 최소 너비 줄임
         checkboxGrid.setPrefWidth(320); // 선호 너비 조정 (간격 증가로 인해)
         checkboxGrid.setMaxWidth(Double.MAX_VALUE); // 최대 너비 제한 해제
         
+        // 한 줄에 5개씩 배치하도록 수정 (줄바꿈)
+        int columnsPerRow = 5;
         for (int i = 0; i < numberCheckBoxes.length; i++) {
-            checkboxGrid.add(numberCheckBoxes[i], i, 0);
+            int row = i / columnsPerRow;
+            int col = i % columnsPerRow;
+            checkboxGrid.add(numberCheckBoxes[i], col, row);
         }
         
         // 사용자 지정 단위 영역
@@ -127,6 +137,8 @@ public class NumberSelectionComponent {
         
         HBox distributionInputBox = new HBox(8);
         distributionInputBox.getChildren().addAll(distributionCountLabel, distributionCountField);
+        // 분배 개수 입력 필드가 남은 공간을 모두 차지하도록 설정
+        HBox.setHgrow(distributionCountField, Priority.ALWAYS);
         
         distributionCountBox.getChildren().addAll(distributionInputBox);
         
@@ -261,5 +273,19 @@ public class NumberSelectionComponent {
         } catch (NumberFormatException e) {
             return 0;
         }
+    }
+    
+    /**
+     * 분배 개수 입력 필드에 에러 스타일 적용
+     */
+    public void highlightDistributionCountFieldError() {
+        distributionCountField.setStyle("-fx-border-color: #D32F2F; -fx-border-width: 2; -fx-background-color: #FFEBEE;");
+    }
+    
+    /**
+     * 분배 개수 입력 필드의 에러 스타일 제거
+     */
+    public void clearDistributionCountFieldError() {
+        distributionCountField.setStyle("");
     }
 } 

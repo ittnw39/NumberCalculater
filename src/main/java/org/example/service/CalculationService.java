@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class CalculationService {
     
-    private static final int[] DEFAULT_DIVISORS = {1400, 1500, 1600, 1700, 1800};
+    private static final int[] DEFAULT_DIVISORS = {1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800};
     
     /**
      * 선택된 숫자들로 나머지 계산

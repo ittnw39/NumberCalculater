@@ -144,31 +144,41 @@ public class CalculatorController {
         }
         
         if (!numberSelection.hasValidDistributionCount()) {
+            numberSelection.highlightDistributionCountFieldError();
             resultDisplay.showMessage("유효한 분배 개수를 입력해주세요.");
             return;
         }
+        
+        // 유효한 경우 에러 스타일 제거
+        numberSelection.clearDistributionCountFieldError();
         
         try {
             int num = Integer.parseInt(input);
             int distributionCount = numberSelection.getDistributionCountValue();
             
-            // 분배 개수가 몫보다 큰지 확인
-            boolean isValidCount = true;
+            // 각 단위별로 검증하여 가능한 것과 불가능한 것을 분리
+            List<CalculationResult> validResults = new java.util.ArrayList<>();
+            List<int[]> errorUnits = new java.util.ArrayList<>();
+            
             for (int divisor : selectedNumbers) {
                 int quotient = num / divisor;
                 if (distributionCount > quotient) {
-                    isValidCount = false;
-                    break;
+                    // 계산 불가능한 단위 정보 저장
+                    errorUnits.add(new int[]{num, divisor});
+                } else {
+                    // 계산 가능한 단위는 계산 수행
+                    CalculationResult result = new CalculationResult(num, divisor);
+                    result.calculateCustomDistribution(distributionCount);
+                    validResults.add(result);
                 }
             }
             
-            if (!isValidCount) {
-                resultDisplay.showMessage("분배 개수는 몫보다 클 수 없습니다.");
-                return;
+            // 결과 표시 (에러 포함)
+            if (validResults.isEmpty() && errorUnits.isEmpty()) {
+                resultDisplay.showMessage("계산할 숫자를 하나 이상 선택해주세요.");
+            } else {
+                resultDisplay.displayCustomDistributionResultsWithErrors(validResults, errorUnits);
             }
-            
-            List<CalculationResult> results = calculationService.calculateCustomDistribution(num, selectedNumbers, distributionCount);
-            resultDisplay.displayCustomDistributionResults(results);
         } catch (Exception e) {
             resultDisplay.showMessage("계산 중 오류가 발생했습니다.");
         }

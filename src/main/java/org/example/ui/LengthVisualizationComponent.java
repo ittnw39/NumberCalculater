@@ -241,28 +241,32 @@ public class LengthVisualizationComponent {
         
         barContainer.getChildren().addAll(barAndTotal, labelRow);
         
-        // 길이 표시
-        HBox lengthLabels = new HBox(10);
+        // 길이 표시 - 태그 스타일로 표시
+        HBox lengthLabels = new HBox(20); // 세트 간 간격
         lengthLabels.setPadding(new Insets(5));
+        lengthLabels.setAlignment(javafx.geometry.Pos.CENTER_LEFT); // 높이 기준 가운데 정렬
         lengthLabels.setFocusTraversable(false); // 포커스 비활성화 추가
         
-        Label unitInfoLabel = new Label(String.format("단위: %d", result.getUnitLength(), unitRatio * 100));
-        unitInfoLabel.setFont(Font.font("Malgun Gothic", 14)); // 크게 표시
-        unitInfoLabel.setStyle("-fx-text-fill: #1976D2;"); // 강조 스타일
-        unitInfoLabel.setFocusTraversable(false); // 포커스 비활성화 추가
+        // 단위 태그+개수 세트
+        HBox unitSet = new HBox(5); // 태그와 개수 간 간격
+        unitSet.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        Label unitTag = createTagLabel(String.valueOf(result.getUnitLength()), "#E3F2FD", "#1976D2");
+        Label unitCountLabel = new Label(result.getFullUnits() + "개");
+        unitCountLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 13));
+        unitCountLabel.setStyle("-fx-text-fill: #1976D2;");
+        unitCountLabel.setAlignment(javafx.geometry.Pos.CENTER); // 가운데 정렬
+        unitCountLabel.setFocusTraversable(false);
+        unitSet.getChildren().addAll(unitTag, unitCountLabel);
+        lengthLabels.getChildren().add(unitSet);
         
-        Label countLabel = new Label(String.format("분할된 개수: %d개", result.getFullUnits()));
-        countLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14)); // 개수 크게 표시
-        countLabel.setStyle("-fx-text-fill: #1976D2;"); // 강조 스타일
-        countLabel.setFocusTraversable(false); // 포커스 비활성화 추가
-        
-        Label remainderInfoLabel = new Label(String.format("나머지: %d", result.getRemainingLength(), 
-            result.hasRemainder() ? (double) result.getRemainingLength() / result.getTotalLength() * 100 : 0));
-        remainderInfoLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14)); // 크게 표시
-        remainderInfoLabel.setStyle("-fx-text-fill: #D32F2F;"); // 강조 스타일
-        remainderInfoLabel.setFocusTraversable(false); // 포커스 비활성화 추가
-        
-        lengthLabels.getChildren().addAll(unitInfoLabel, countLabel, remainderInfoLabel);
+        // 나머지가 있는 경우 나머지 태그 표시
+        if (result.getRemainingLength() > 0) {
+            HBox remainderSet = new HBox(5); // 태그와 개수 간 간격
+            remainderSet.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+            Label remainderTag = createTagLabel(String.valueOf(result.getRemainingLength()), "#FFEBEE", "#D32F2F");
+            remainderSet.getChildren().add(remainderTag);
+            lengthLabels.getChildren().add(remainderSet);
+        }
         
         stepBox.getChildren().addAll(stepTitle, formula, barContainer, lengthLabels);
         return stepBox;
@@ -378,7 +382,25 @@ public class LengthVisualizationComponent {
             
             barContainer.getChildren().addAll(barAndTotal, labelRow);
             
-            stepBox.getChildren().addAll(stepTitle, noRemainderMessage, barContainer);
+            // 단위 정보 - 태그 스타일로 표시
+            HBox lengthLabels = new HBox(20); // 세트 간 간격
+            lengthLabels.setPadding(new Insets(5));
+            lengthLabels.setAlignment(javafx.geometry.Pos.CENTER_LEFT); // 높이 기준 가운데 정렬
+            lengthLabels.setFocusTraversable(false); // 포커스 비활성화 추가
+            
+            // 단위 태그+개수 세트
+            HBox unitSet = new HBox(5); // 태그와 개수 간 간격
+            unitSet.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+            Label unitTag = createTagLabel(String.valueOf(result.getUnitLength()), "#E3F2FD", "#1976D2");
+            Label unitCountLabel = new Label(result.getFullUnits() + "개");
+            unitCountLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 13));
+            unitCountLabel.setStyle("-fx-text-fill: #1976D2;");
+            unitCountLabel.setAlignment(javafx.geometry.Pos.CENTER); // 가운데 정렬
+            unitCountLabel.setFocusTraversable(false);
+            unitSet.getChildren().addAll(unitTag, unitCountLabel);
+            lengthLabels.getChildren().add(unitSet);
+            
+            stepBox.getChildren().addAll(stepTitle, noRemainderMessage, barContainer, lengthLabels);
             return stepBox;
         }
         
@@ -492,32 +514,53 @@ public class LengthVisualizationComponent {
         
         barContainer.getChildren().addAll(barAndTotal, labelRow);
         
-        // 최종 정보
-        HBox finalInfo = new HBox(10);
+        // 최종 정보 - 태그 스타일로 표시
+        HBox finalInfo = new HBox(20); // 세트 간 간격 증가 (8 -> 20)
         finalInfo.setPadding(new Insets(5));
+        finalInfo.setAlignment(javafx.geometry.Pos.CENTER_LEFT); // 높이 기준 가운데 정렬
         finalInfo.setFocusTraversable(false); // 포커스 비활성화 추가
         
-        Label originalLabel = new Label(String.format("원래 단위: %d", result.getUnitLength()));
-        originalLabel.setFont(Font.font("Malgun Gothic", 14)); // 크게 표시
-        originalLabel.setStyle("-fx-text-fill: #1976D2;"); // 강조 스타일
-        originalLabel.setFocusTraversable(false); // 포커스 비활성화 추가
+        // 원래 단위 태그+개수 세트
+        HBox unitSet = new HBox(5); // 태그와 개수 간 간격
+        unitSet.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        Label unitTag = createTagLabel(String.valueOf(result.getUnitLength()), "#E3F2FD", "#1976D2");
+        Label unitCountLabel = new Label(result.getFullUnits() + "개");
+        unitCountLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 13));
+        unitCountLabel.setStyle("-fx-text-fill: #1976D2;");
+        unitCountLabel.setAlignment(javafx.geometry.Pos.CENTER); // 가운데 정렬
+        unitCountLabel.setFocusTraversable(false);
+        unitSet.getChildren().addAll(unitTag, unitCountLabel);
+        finalInfo.getChildren().add(unitSet);
         
-        Label countLabel = new Label(String.format("분할된 개수: %d개", result.getFullUnits()));
-        countLabel.setFont(Font.font("Malgun Gothic", 14)); // 개수 크게 표시
-        countLabel.setStyle("-fx-text-fill: #2E7D32;"); // 강조 스타일
-        countLabel.setFocusTraversable(false); // 포커스 비활성화 추가
+        // 나머지가 있는 경우 추가 부분 태그+개수 세트
+        if (result.getRemainingLength() > 0 && result.getFullUnits() > 0) {
+            HBox addedSet = new HBox(5); // 태그와 개수 간 간격
+            addedSet.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+            Label addedTag = createTagLabel(String.format("%.2f", result.getDistributedPerPiece()), "#FFF8E1", "rgb(255, 115, 0)");
+            Label addedCountLabel = new Label(result.getFullUnits() + "개");
+            addedCountLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 13));
+            addedCountLabel.setStyle("-fx-text-fill:rgb(255, 115, 0);");
+            addedCountLabel.setAlignment(javafx.geometry.Pos.CENTER); // 가운데 정렬
+            addedCountLabel.setFocusTraversable(false);
+            addedSet.getChildren().addAll(addedTag, addedCountLabel);
+            finalInfo.getChildren().add(addedSet);
+        }
         
-        Label addedLabel = new Label(String.format("추가됨: %.2f", result.getDistributedPerPiece()));
-        addedLabel.setFont(Font.font("Malgun Gothic", 14)); // 크게 표시
-            addedLabel.setStyle("-fx-text-fill: #FF9800;"); // 강조 스타일
-            addedLabel.setFocusTraversable(false); // 포커스 비활성화 추가
-        
-        Label finalLabel = new Label(String.format("최종: %.2f", result.getFinalPieceSize()));
-        finalLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14)); // 크게 표시
-        finalLabel.setStyle("-fx-text-fill: #D32F2F;"); // 강조 스타일
-        finalLabel.setFocusTraversable(false); // 포커스 비활성화 추가
-        
-        finalInfo.getChildren().addAll(originalLabel, countLabel, addedLabel, finalLabel);
+        // 최종 태그+개수 세트
+        HBox finalSet = new HBox(5); // 태그와 개수 간 간격
+        finalSet.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        Label finalLabel = new Label("최종: ");
+        finalLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 13));
+        finalLabel.setStyle("-fx-text-fill: #D32F2F;");
+        finalLabel.setFocusTraversable(false);
+        Label finalTag = createTagLabel(String.format("%.2f", result.getFinalPieceSize()), "#FFEBEE", "#D32F2F");
+        Label finalCountLabel = new Label(result.getFullUnits() + "개");
+        finalCountLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 13));
+        finalCountLabel.setStyle("-fx-text-fill: #D32F2F;");
+        finalCountLabel.setAlignment(javafx.geometry.Pos.CENTER); // 가운데 정렬
+        finalCountLabel.setFocusTraversable(false);
+        finalSet.getChildren().addAll(finalLabel, finalTag, finalCountLabel);
+        finalInfo.getChildren().add(finalSet);
         
         stepBox.setFocusTraversable(false); // 포커스 비활성화 추가
         stepBox.getChildren().addAll(stepTitle, formula, barContainer, finalInfo);
@@ -543,6 +586,39 @@ public class LengthVisualizationComponent {
         
         container.getChildren().add(titleLabel);
         container.getChildren().add(customDistributionBox);
+        
+        return container;
+    }
+    
+    /**
+     * 개수 지정 분배 에러 카드 생성
+     */
+    public VBox createCustomDistributionErrorCard(int totalLength, int unitLength, String errorMessage) {
+        VBox container = new VBox(15);
+        container.setPadding(new Insets(15));
+        container.setStyle("-fx-border-color: #9C27B0; -fx-border-radius: 8; -fx-background-color: #F3E5F5; -fx-border-width: 2;");
+        container.setFocusTraversable(false);
+        
+        // 제목
+        Label titleLabel = new Label(String.format("%d ÷ %d (개수 지정 분배)", totalLength, unitLength));
+        titleLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 18));
+        titleLabel.setStyle("-fx-text-fill: #7B1FA2;");
+        
+        // 에러 메시지 표시 영역 (원래 분배 단계가 나올 자리)
+        VBox errorBox = new VBox(10);
+        errorBox.setPadding(new Insets(10));
+        errorBox.setStyle("-fx-border-color: #9C27B0; -fx-border-radius: 5; -fx-background-color: #F3E5F5; -fx-border-width: 1;");
+        errorBox.setFocusTraversable(false);
+        
+        Label errorLabel = new Label(errorMessage);
+        errorLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
+        errorLabel.setStyle("-fx-text-fill: #D32F2F;");
+        errorLabel.setFocusTraversable(false);
+        
+        errorBox.getChildren().add(errorLabel);
+        
+        container.getChildren().add(titleLabel);
+        container.getChildren().add(errorBox);
         
         return container;
     }
@@ -685,34 +761,78 @@ public class LengthVisualizationComponent {
         
         barContainer.getChildren().addAll(barAndTotal, labelRow);
         
-        // 최종 정보
-        HBox finalInfo = new HBox(10);
+        // 최종 정보 - 태그 스타일로 표시
+        HBox finalInfo = new HBox(20); // 세트 간 간격 증가 (8 -> 20)
         finalInfo.setPadding(new Insets(5));
+        finalInfo.setAlignment(javafx.geometry.Pos.CENTER_LEFT); // 높이 기준 가운데 정렬
         finalInfo.setFocusTraversable(false);
         
-        Label originalLabel = new Label(String.format("원래 단위: %d", result.getUnitLength()));
-        originalLabel.setFont(Font.font("Malgun Gothic", 14));
-        originalLabel.setStyle("-fx-text-fill: #1976D2;");
-        originalLabel.setFocusTraversable(false);
+        // 원래 단위 태그+개수 세트
+        HBox unitSet = new HBox(5); // 태그와 개수 간 간격
+        unitSet.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        Label unitTag = createTagLabel(String.valueOf(result.getUnitLength()), "#E3F2FD", "#1976D2");
+        Label unitCountLabel = new Label(result.getCustomDistributionCount() + "개");
+        unitCountLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 13));
+        unitCountLabel.setStyle("-fx-text-fill: #1976D2;");
+        unitCountLabel.setAlignment(javafx.geometry.Pos.CENTER); // 가운데 정렬
+        unitCountLabel.setFocusTraversable(false);
+        unitSet.getChildren().addAll(unitTag, unitCountLabel);
+        finalInfo.getChildren().add(unitSet);
         
-        Label distributionCountLabel = new Label(String.format("분배 개수: %d개", result.getCustomDistributionCount()));
-        distributionCountLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
-        distributionCountLabel.setStyle("-fx-text-fill: #7B1FA2;");
-        distributionCountLabel.setFocusTraversable(false);
+        // 나머지가 있는 경우 추가 부분 태그+개수 세트
+        if (result.getRemainingLength() > 0 && result.getCustomDistributionCount() > 0) {
+            HBox addedSet = new HBox(5); // 태그와 개수 간 간격
+            addedSet.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+            Label addedTag = createTagLabel(String.format("%.2f", result.getCustomDistributedPerPiece()), "#FFF8E1", "rgb(255, 115, 0)");
+            Label addedCountLabel = new Label(result.getCustomDistributionCount() + "개");
+            addedCountLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 13));
+            addedCountLabel.setStyle("-fx-text-fill:rgb(255, 115, 0);");
+            addedCountLabel.setAlignment(javafx.geometry.Pos.CENTER); // 가운데 정렬
+            addedCountLabel.setFocusTraversable(false);
+            addedSet.getChildren().addAll(addedTag, addedCountLabel);
+            finalInfo.getChildren().add(addedSet);
+        }
         
-        Label addedLabel = new Label(String.format("추가됨: %.2f", result.getCustomDistributedPerPiece()));
-        addedLabel.setFont(Font.font("Malgun Gothic", 14));
-        addedLabel.setStyle("-fx-text-fill: #9C27B0;");
-        addedLabel.setFocusTraversable(false);
-        
-        Label finalLabel = new Label(String.format("최종: %.2f", result.getCustomFinalPieceSize()));
-        finalLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 14));
-        finalLabel.setStyle("-fx-text-fill: #7B1FA2;");
+        // 최종 태그+개수 세트
+        HBox finalSet = new HBox(5); // 태그와 개수 간 간격
+        finalSet.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        Label finalLabel = new Label("최종: ");
+        finalLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 13));
+        finalLabel.setStyle("-fx-text-fill: #D32F2F;");
         finalLabel.setFocusTraversable(false);
-        
-        finalInfo.getChildren().addAll(originalLabel, distributionCountLabel, addedLabel, finalLabel);
+        Label finalTag = createTagLabel(String.format("%.2f", result.getCustomFinalPieceSize()), "#FFEBEE", "#D32F2F");
+        Label finalCountLabel = new Label(result.getCustomDistributionCount() + "개");
+        finalCountLabel.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 13));
+        finalCountLabel.setStyle("-fx-text-fill: #D32F2F;");
+        finalCountLabel.setAlignment(javafx.geometry.Pos.CENTER); // 가운데 정렬
+        finalCountLabel.setFocusTraversable(false);
+        finalSet.getChildren().addAll(finalLabel, finalTag, finalCountLabel);
+        finalInfo.getChildren().add(finalSet);
         
         stepBox.getChildren().addAll(stepTitle, formula, barContainer, finalInfo);
         return stepBox;
+    }
+    
+    /**
+     * 태그 스타일의 Label 생성
+     * @param text 태그에 표시할 텍스트
+     * @param bgColor 배경색 (예: "#E3F2FD")
+     * @param borderColor 테두리색 (예: "#1976D2")
+     * @return 태그 스타일의 Label
+     */
+    private Label createTagLabel(String text, String bgColor, String borderColor) {
+        Label tag = new Label(text);
+        tag.setFont(Font.font("Malgun Gothic", FontWeight.BOLD, 13));
+        tag.setStyle(String.format(
+            "-fx-background-color: %s; " +
+            "-fx-border-color: %s; " +
+            "-fx-border-radius: 5; " +
+            "-fx-background-radius: 5; " +
+            "-fx-padding: 5 10; " +
+            "-fx-text-fill: %s;",
+            bgColor, borderColor, borderColor
+        ));
+        tag.setFocusTraversable(false);
+        return tag;
     }
 } 
